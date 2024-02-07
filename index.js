@@ -3,6 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const userRoute = require("./routes/user");
 const productRoutes = require("./routes/productRoute");
+const cartRoutes = require("./routes/cartRoute");
 
 require("dotenv").config();
 
@@ -13,6 +14,7 @@ app.use(cors());
 app.use("/api/users", userRoute);
 app.use("/api/users", productRoutes);
 app.use("/uploads", express.static("uploads"));
+app.use("/api", cartRoutes);
 
 const port = process.env.PORT || 5000; // Use process.env.PORT
 const uri = process.env.ATLAS_URL;

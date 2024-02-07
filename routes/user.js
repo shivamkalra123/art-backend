@@ -4,8 +4,10 @@ const {
   loginAdmin,
   registerUser,
   loginUser,
+  authenticateUser,
 } = require("../controllers/authenticate");
 
+const { ensureAuthenticated } = require("../middleware/middleware");
 const router = express.Router();
 
 router.post("/registerAdmin", async (req, res) => {
@@ -43,5 +45,7 @@ router.post("/loginUser", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+router.get("/user/authenticate", ensureAuthenticated, authenticateUser);
 
 module.exports = router;

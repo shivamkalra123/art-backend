@@ -8,6 +8,26 @@ const createToken = (_id) => {
   return jwt.sign({ _id }, jwtkey, { expiresIn: "3d" });
 };
 
+// Middleware for user authentication
+const authenticateUser = async (req, res, next) => {
+  try {
+    const token = req.header("Authorization").replace("Bearer ", "");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+    const user = await userModel.findOne({ _id: decoded._id });
+
+    if (!user) {
+      throw new Error();
+    }
+
+    req.token = token;
+    req.user = user;
+    next();
+  } catch (error) {
+    res.status(401).json({ error: "Please authenticate" });
+  }
+};
+
 const registerAdmin = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -134,4 +154,10 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerAdmin, loginAdmin, registerUser, loginUser };
+module.exports = {
+  authenticateUser,
+  registerAdmin,
+  loginAdmin,
+  registerUser,
+  loginUser,
+};
