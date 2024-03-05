@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const userRoute = require("./routes/user");
 const productRoutes = require("./routes/productRoute");
 const cartRoutes = require("./routes/cartRoute");
+const paymentRoute = require("./routes/paymentRoute");
 
 require("dotenv").config();
 
@@ -15,13 +16,13 @@ app.use("/api/users", userRoute);
 app.use("/api/users", productRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use("/api", cartRoutes);
+app.use("/api", paymentRoute);
 
 const port = process.env.PORT || 5000; // Use process.env.PORT
 const uri = process.env.ATLAS_URL;
 
 app.listen(port, () => {
   console.log(`Server Running on port: ${port}`);
-  console.log("MongoDb Connection established");
 });
 
 mongoose
