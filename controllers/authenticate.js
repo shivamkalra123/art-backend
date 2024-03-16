@@ -119,7 +119,10 @@ const registerUser = async (req, res) => {
 
     await user.save();
 
-    res.status(201).json("User created");
+    // Generate token
+    const token = createToken(user); // You need to implement this function
+
+    res.status(201).json({ token }); // Return the token to the client
   } catch (e) {
     res.status(500).json("Something unexpected occurred");
     console.log(e);
